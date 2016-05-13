@@ -6,7 +6,7 @@
 
 Name: %{?scl_prefix}rubygem-%{gem_name}
 Version: 3.5.0
-Release: 4%{?dist}
+Release: 5%{?dist}
 Summary: Making tests easy on the fingers and eyes
 Group: Development/Languages
 License: MIT
@@ -32,6 +32,8 @@ BuildRequires: %{?scl_prefix}rubygem(shoulda-matchers)
 BuildRequires: %{?scl_prefix}rubygem(sqlite3)
 BuildRequires: %{?scl_prefix}rubygem(gherkin)
 BuildRequires: %{?scl_prefix}rubygem(rspec-rails)
+BuildRequires: %{?scl_prefix}rubygem(ffi)
+BuildRequires: %{?scl_prefix}rubygem(multi_test)
 BuildArch:     noarch
 Provides:      %{?scl_prefix}rubygem(%{gem_name}) = %{version}
 
@@ -88,8 +90,7 @@ sed -i '/SPEC_OPTS=-fs/ s/fs/fd/' features/rails_integration.feature
 sed -i 's/spec_helper/rails_helper/' features/rails_integration.feature
 
 %{?scl:scl enable %{scl} - << \EOF}
-# Tests cannot be run, as rubygem-ffi is not available
-#cucumber
+cucumber
 %{?scl:EOF}
 popd
 
@@ -113,6 +114,10 @@ popd
 %{gem_instdir}/shoulda.gemspec
 
 %changelog
+* Fri Apr 08 2016 Pavel Valena <pvalena@redhat.com> - 3.5.0-5
+- Enable tests
+- Add missing dependencies to BuildRequires (for tests)
+
 * Mon Feb 29 2016 Pavel Valena <pvalena@redhat.com> - 3.5.0-4
 - Add scl macros
 
